@@ -127,8 +127,18 @@
     	systemctl enable ntpd
     	systemctl enable bluetooth
 
-    	sudo systemctl daemon-reload (reload all daemons)
-    	(more on bluetooth set up later)
+    	systemctl daemon-reload (reload all daemons)
+    	(bluetooth config)
+        (set up such that output device for audio switches to bluetooth when new divice is connected)
+    	vim /etc/pulse/default.pa
+    	add the following at the bottom
+    	# automatically switch to newly-connected devices
+    	load-module module-switch-on-connect
+
+    	(autostart bluetooth adapter at restart)
+    	vim /etc/bluetooth/main.conf
+    	(uncomment and update the following under [policy] section at the bottom
+    	AutoEnable=true
     21. exit out of chroot and reboot
         exit
         umount -l /mnt
@@ -149,7 +159,7 @@
             sudo pacman -S xf86-video-intel (for intel cards)
             Check this page for complete list - https://wiki.archlinux.org/index.php/xorg
     24. install more packages (connect to internet first)
-        sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger qtile p7zip unrar tar rsync alacritty feh picom base-devel xorg xorg-xinit
+        sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger qtile p7zip unrar tar rsync alacritty feh picom base-devel elisa yakuake kdeconnect xorg xorg-xinit
     27. edit .xinitrc file
         cp /etc/X11/xinit/xinitrc ~/.xinitrc  (copy to home as hidden file)
         open the file
@@ -178,42 +188,46 @@
     	(select the master by using arrow keys and hit m to unmute the master. now internal speakers should work)
     	(can also use this to adjust volume lateron)
     32. set up bluetooth control (may or may not be required) (did not succeed)
-        systemctl status bluetooth  (check if deamon is already running, if not.. got to next step
+        systemctl status bluetooth  (check if deamon is already running, if not.. got to next step)
         systemctl start bluetooth (only requried if have not restarted post install of bluez bluez-utils laptop)
-
-    	(set up such that output device for audio switches to bluetooth when new divice is connected)
-    	sudo vim /etc/pulse/default.pa
-    	add the following at the bottom
-    	# automatically switch to newly-connected devices
-    	load-module module-switch-on-connect
-
-    	(autostart bluetooth adapter at restart)
-    	sudo vim /etc/bluetooth/main.conf
-    	(uncomment and update the following under [policy] section at the bottom
-    	AutoEnable=true
 
     	(connecting to a bouetooth device)
         bluetoothctl power on
         bluetoothctl scan on (to start scanning)
         bluetoothctl devices (lists available devices)
-        bluetoothctl pair <macAdd>
+        bluetoothctl pair <macAdd> (use this when the device can provide an input method to put the code in)
         bluetoothctl connect <macAdd>
         bluetoothctl trust <masAdd>
 
         write following script in a .sh file and run it to connect to a specific device everytime
         #!/bin/bash
         echo -e 'power on\nconnect 00:1B:66:03:11:09 \nquit' | bluetoothctl
-
     33. set up wifi control (may or may not be requried)
         1. nmcli device wifi list
         2. nmcli device wifi connect <SSID/wifiname> password <password>
-    34. config files for following programs
-        1. qtile
-        2. alacritty
-    35. Set up the following:
-        1. VScode extensions
-        2. Anaconda yaml file
-        3. MegaUpload
+    98. DONE: (do the setup once in 2nd laptop)
+        * VS code extensions
+        * Megasync -Not required( use chrome extension..already done)
+
+    99. TODO:
+        1. qtile config setup
+            * Widget set up:
+                * Battery indicator
+                * Brightness indicator and change
+                * Volume indicator and changer
+                * Bluetooth indicator and changer
+                * calendar widget
+                * TODO widget?
+            * bar beautifier
+            * set up 'tap to select' with touchpad
+        4. alacritty config (fonts and colours)
+        9. Specific to big laptop
+            * Anaconda
+            * Android Studio + DART
+        10. Alias and script creation for all things
+            * Brightness control
+            * opening Volume control
+            * Bluetooth set up
     100. once all set up is done make wm autostart
         vim ~/.bash_profile
         at the bottom add the following
