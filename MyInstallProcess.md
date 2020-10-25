@@ -1,12 +1,15 @@
 # My install process
+
 ## Reference - https://wiki.archlinux.org/index.php/Installation_guide
+
 ## Steps:
-	1. boot with usb
-	2. Check keyboard layout (defalut layout was working in small laptop so no need to do anything)
-	3. Connect to internet:
-		1. ping www.google.com
-		2. if command does not work
-            iwctl device list 
+
+    1. boot with usb
+    2. Check keyboard layout (defalut layout was working in small laptop so no need to do anything)
+    3. Connect to internet:
+    	1. ping www.google.com
+    	2. if command does not work
+            iwctl device list
             iwctl station <device> scan
             iwctl station <device> get-networks
             iwctl --passphrase <passphrase> station <device> connect <SSID>
@@ -22,7 +25,7 @@
             timedatectl status
     5. partition the drives:
         1. Run:
-            fdisk -l 
+            fdisk -l
             (lists all drives. note the one that you want to use for partitioning)
         2. create partitions (1 for efi-boot, 1 for all data):
             fdisk <path to drive> ( /dev/mmcblk1 )
@@ -96,7 +99,7 @@
         127.0.0.1 <Tab> localhost
         ::1 <Tab> localhost
         127.0.1.1 <Tab> <myhostname>.localdomain <Tab> <myhostname>
-        
+
         :wq (save and quit)
     15. Set password for root user
         passwd
@@ -108,7 +111,7 @@
         (set password for new user) (make it same as root user)
         usermod -aG wheel,audio,video,optical,storage <username> (can add more groups. find out more) (do for both users)
     17. install some packagessudo
-        pacman -S sudo grub efibootmgr dosfstools os-prober mtools 
+        pacman -S sudo grub efibootmgr dosfstools os-prober mtools
     18. Give wheel users all access when using sudo
         visudo  (if vi not present -- EDITOR=<your editor (vim)> visudo)
         (find the line about the wheel group (wheel ALL=(ALL) ALL))
@@ -121,15 +124,15 @@
     20. install and enable network NetworkManager, ntp, bluetooth, sound
         pacman -Sy networkmanager ntp bluez bluez-utils pulseaudio pulseaudio-bluetooth alsa-utils pavucontrol
         systemctl enable NetworkManager
-		systemctl enable ntpd
-		systemctl enable bluetooth
-	
-		sudo systemctl daemon-reload (reload all daemons)
-		(more on bluetooth set up later)	
+    	systemctl enable ntpd
+    	systemctl enable bluetooth
+
+    	sudo systemctl daemon-reload (reload all daemons)
+    	(more on bluetooth set up later)
     21. exit out of chroot and reboot
         exit
         umount -l /mnt
-        reboot now    
+        reboot now
     22. after reboot you should see a login screen
         <userrname> (adi02)
         <password> (pass)
@@ -138,7 +141,7 @@
         if not connected
         nmcli device wifi list
         nmcli device wifi connect <SSID> password <password>
-	24. install video drivers
+    24. install video drivers
         1. find what card you have
             lspci | grep -e VGA -e 3D
         2. install drivers
@@ -169,38 +172,38 @@
         ailas brit='xrandr --output <MonitorName> --brightness'
         :wq
         source ~/.bashrc
-        (now you can change brightness by -- brit 0.7)        
+        (now you can change brightness by -- brit 0.7)
     31. Set up volume control (may or may not be required based on laptop keyboard functions)
-		alsamixer -c 0
-		(select the master by using arrow keys and hit m to unmute the master. now internal speakers should work)
-		(can also use this to adjust volume lateron)
+    	alsamixer -c 0
+    	(select the master by using arrow keys and hit m to unmute the master. now internal speakers should work)
+    	(can also use this to adjust volume lateron)
     32. set up bluetooth control (may or may not be required) (did not succeed)
         systemctl status bluetooth  (check if deamon is already running, if not.. got to next step
         systemctl start bluetooth (only requried if have not restarted post install of bluez bluez-utils laptop)
-		
-		(set up such that output device for audio switches to bluetooth when new divice is connected)
-		sudo vim /etc/pulse/default.pa
-		add the following at the bottom
-		# automatically switch to newly-connected devices
-		load-module module-switch-on-connect
-        
-		(autostart bluetooth adapter at restart)
-		sudo vim /etc/bluetooth/main.conf
-		(uncomment and update the following under [policy] section at the bottom
-		AutoEnable=true
-		
-		(connecting to a bouetooth device)
+
+    	(set up such that output device for audio switches to bluetooth when new divice is connected)
+    	sudo vim /etc/pulse/default.pa
+    	add the following at the bottom
+    	# automatically switch to newly-connected devices
+    	load-module module-switch-on-connect
+
+    	(autostart bluetooth adapter at restart)
+    	sudo vim /etc/bluetooth/main.conf
+    	(uncomment and update the following under [policy] section at the bottom
+    	AutoEnable=true
+
+    	(connecting to a bouetooth device)
         bluetoothctl power on
         bluetoothctl scan on (to start scanning)
         bluetoothctl devices (lists available devices)
         bluetoothctl pair <macAdd>
         bluetoothctl connect <macAdd>
         bluetoothctl trust <masAdd>
-        
+
         write following script in a .sh file and run it to connect to a specific device everytime
         #!/bin/bash
         echo -e 'power on\nconnect 00:1B:66:03:11:09 \nquit' | bluetoothctl
-        
+
     33. set up wifi control (may or may not be requried)
         1. nmcli device wifi list
         2. nmcli device wifi connect <SSID/wifiname> password <password>
@@ -214,5 +217,4 @@
     100. once all set up is done make wm autostart
         vim ~/.bash_profile
         at the bottom add the following
-        [[ $(fgconsole 2>/dev/null) == 1 ]] && exec startx -- vt1    
-      
+        [[ $(fgconsole 2>/dev/null) == 1 ]] && exec startx -- vt1
