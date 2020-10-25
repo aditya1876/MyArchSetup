@@ -1,5 +1,5 @@
 # My install process
-## reference - https://wiki.archlinux.org/index.php/Installation_guide
+## Reference - https://wiki.archlinux.org/index.php/Installation_guide
 ## Steps:
 	1. boot with usb
 	2. Check keyboard layout (defalut layout was working in small laptop so no need to do anything)
@@ -118,9 +118,13 @@
         mount <path to boot partition> /boot/EFI  (/dev/mmcblk1p1 for small laptop)
         grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
         grub-mkconfig -o /boot/grub/grub.cfg
-    20. install and enable network NetworkManager
-        pacman -S networkmanager
+    20. install and enable network NetworkManager, ntp, bluetooth
+        pacman -Sy networkmanager ntp bluez bluez-utils
         systemctl enable NetworkManager
+	systemctl enable ntpd
+	systemctl enable bluetooth
+	
+	sudo systemctl daemon-reload (reload all daemons)
     21. exit out of chroot and reboot
         exit
         umount -l /mnt
@@ -171,11 +175,8 @@
         (now you can change brightness by -- brit 0.7)        
     31. Set up volume control (may or may not be required based on laptop keyboard functions)
     32. set up bluetooth control (may or may not be required) (did not succeed)
-        systemctl status bluetooth  (check if deamon is already running, if not.. got to next step)
-        sudo pacman -Sy bluez bluez-utils   (also install blueman ?)
-        systemctl enable bluetooth (the service will start automaticall after restart)
-        systemctl start bluetooth (only requried if you do not want to restart laptop)
-        
+        systemctl status bluetooth  (check if deamon is already running, if not.. got to next step
+        systemctl start bluetooth (only requried if have not restarted post install of bluez bluez-utils laptop)
         (connecting to a bouetooth device)
         bluetoothctl power on
         bluetoothctl scan on (to start scanning)
@@ -205,8 +206,4 @@
         
     
 to reload all daemons after install
-sudo systemctl daemon-reload
 
-
-packages installed - ntp (to synd with network time)
-sudo systemctl enable ntpd
