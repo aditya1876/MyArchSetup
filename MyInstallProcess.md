@@ -118,38 +118,35 @@
         mount <path to boot partition> /boot/EFI  (/dev/mmcblk1p1 for small laptop)
         grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
         grub-mkconfig -o /boot/grub/grub.cfg
-    20. install and enable network NetworkManager, ntp, bluetooth
-        pacman -Sy networkmanager ntp bluez bluez-utils
+    20. install and enable network NetworkManager, ntp, bluetooth, sound
+        pacman -Sy networkmanager ntp bluez bluez-utils pulseaudio pulseaudio-bluetooth alsa-utils pavucontrol
         systemctl enable NetworkManager
-	systemctl enable ntpd
-	systemctl enable bluetooth
+		systemctl enable ntpd
+		systemctl enable bluetooth
 	
-	sudo systemctl daemon-reload (reload all daemons)
+		sudo systemctl daemon-reload (reload all daemons)
+		(more on bluetooth set up later)	
     21. exit out of chroot and reboot
         exit
         umount -l /mnt
-        reboot now
-        
+        reboot now    
     22. after reboot you should see a login screen
         <userrname> (adi02)
         <password> (pass)
-    
     23. After restart check if internet is connected
         ping google.com
         if not connected
         nmcli device wifi list
         nmcli device wifi connect <SSID> password <password>
-    24. install more packages (connect to internet first)
-        sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger qtile p7zip unrar tar rsync alacritty feh picom base-devel
-    25. install video drivers
+	24. install video drivers
         1. find what card you have
             lspci | grep -e VGA -e 3D
         2. install drivers
             sudo pacman -S xf86-video-vesa  (back up driver if specific driver not found or failed to load)
             sudo pacman -S xf86-video-intel (for intel cards)
             Check this page for complete list - https://wiki.archlinux.org/index.php/xorg
-    26. install xorg
-        sudo pacman -S xorg xorg-xinit
+    24. install more packages (connect to internet first)
+        sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger qtile p7zip unrar tar rsync alacritty feh picom base-devel xorg xorg-xinit
     27. edit .xinitrc file
         cp /etc/X11/xinit/xinitrc ~/.xinitrc  (copy to home as hidden file)
         open the file
@@ -174,10 +171,25 @@
         source ~/.bashrc
         (now you can change brightness by -- brit 0.7)        
     31. Set up volume control (may or may not be required based on laptop keyboard functions)
+		alsamixer -c 0
+		(select the master by using arrow keys and hit m to unmute the master. now internal speakers should work)
+		(can also use this to adjust volume lateron)
     32. set up bluetooth control (may or may not be required) (did not succeed)
         systemctl status bluetooth  (check if deamon is already running, if not.. got to next step
         systemctl start bluetooth (only requried if have not restarted post install of bluez bluez-utils laptop)
-        (connecting to a bouetooth device)
+		
+		(set up such that output device for audio switches to bluetooth when new divice is connected)
+		sudo vim /etc/pulse/default.pa
+		add the following at the bottom
+		# automatically switch to newly-connected devices
+		load-module module-switch-on-connect
+        
+		(autostart bluetooth adapter at restart)
+		sudo vim /etc/bluetooth/main.conf
+		(uncomment and update the following under [policy] section at the bottom
+		AutoEnable=true
+		
+		(connecting to a bouetooth device)
         bluetoothctl power on
         bluetoothctl scan on (to start scanning)
         bluetoothctl devices (lists available devices)
@@ -203,7 +215,4 @@
         vim ~/.bash_profile
         at the bottom add the following
         [[ $(fgconsole 2>/dev/null) == 1 ]] && exec startx -- vt1    
-        
-    
-to reload all daemons after install
-
+      
