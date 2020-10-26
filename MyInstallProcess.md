@@ -159,7 +159,7 @@
             sudo pacman -S xf86-video-intel (for intel cards)
             Check this page for complete list - https://wiki.archlinux.org/index.php/xorg
     24. install more packages (connect to internet first)
-        sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger qtile p7zip unrar tar rsync alacritty feh picom base-devel elisa yakuake kdeconnect xorg xorg-xinit
+        sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger qtile p7zip unrar tar rsync alacritty feh picom base-devel elisa yakuake kdeconnect ttf-ubuntu-font-family htop xorg xorg-xinit
     27. edit .xinitrc file
         cp /etc/X11/xinit/xinitrc ~/.xinitrc  (copy to home as hidden file)
         open the file
@@ -208,7 +208,6 @@
     98. DONE: (do the setup once in 2nd laptop)
         * VS code extensions
         * Megasync -Not required( use chrome extension..already done)
-
     99. TODO:
         1. qtile config setup
             * Widget set up:
@@ -224,6 +223,7 @@
         9. Specific to big laptop
             * Anaconda
             * Android Studio + DART
+            * make laptop work with external monitor
         10. Alias and script creation for all things
             * Brightness control
             * opening Volume control
