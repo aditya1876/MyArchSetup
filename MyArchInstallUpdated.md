@@ -176,6 +176,11 @@
         <username>
         <pass>
         #startx (to launch wm)
+        #set up git in VS code
+        sudo pacman -S qtkeychain gnome-keyring
+        #set up git config
+        git config --global user.name "John Doe"
+        git config --global user.email 'johndoe@example.com'
     30. #Set up brightness control (may or may not be required based on laptop keyboard functions)
         #xrandr | grep " connected" | cut -f1 -d " " (find monitor name)
         #xrandr --output <MonitorName> --brightness <BrightnessLvl> (from 0(min) to 1(max))
