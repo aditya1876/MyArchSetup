@@ -63,7 +63,7 @@
             swapon <path to partition> (not requried for small laptop) (turns swap on)
             mkfs.ext4 <path to partition> ( /dev/mmcblk1p2 ) (makes linux filesystem partition .ext4 partition)
     6. Mount the linux file system partition to live image
-        mount <path to linuxFilesystem partition ( /dev/mmcblk1p2 )> /mnt
+        mount <path to linuxFilesystem partition ( /dev/mmcblk1p2 ) /mnt
     7. Install the system
         pacstrap /mnt base linux linux-firmware
     8. generate fstab (file system table)
@@ -159,7 +159,8 @@
             Check this page for complete list - https://wiki.archlinux.org/index.php/xorg
     24. install more packages (connect to internet first)
         #sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger qtile p7zip unrar tar rsync alacritty feh picom base-devel elisa yakuake kdeconnect xorg xorg-xinit
-        sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger alacritty base-devel elisa notepadqq xorg plasma plasma-wayland-session
+        sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger sakura base-devel elisa notepadqq xorg plasma plasma-wayland-session qutebrowser yakuake kdeconnect#for small lap
+        sudo pacman -S code vlc git chromium speedcrunch dolphin ranger sakura base-devel elisa notepadqq xorg plasma plasma-wayland-session qutebrowser yakuake kdeconnect#for big lap
         sudo systemctl enable sddm.service
         sudo systemctl enable NetworkManager.service
         sudo systemctl daemon-reload
