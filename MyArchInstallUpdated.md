@@ -159,8 +159,13 @@
             Check this page for complete list - https://wiki.archlinux.org/index.php/xorg
     24. install more packages (connect to internet first)
         #sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger qtile p7zip unrar tar rsync alacritty feh picom base-devel elisa yakuake kdeconnect xorg xorg-xinit
+<<<<<<< HEAD
         sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger sakura base-devel elisa notepadqq xorg plasma plasma-wayland-session qutebrowser #for small lap
         sudo pacman -S code vlc git chromium speedcrunch dolphin ranger sakura base-devel elisa notepadqq xorg plasma plasma-wayland-session qutebrowser #for big lap
+=======
+        sudo pacman -S code vlc git chromium speedcrunch pcmanfm ranger sakura base-devel elisa notepadqq xorg plasma plasma-wayland-session qutebrowser yakuake kdeconnect#for small lap
+        sudo pacman -S code vlc git chromium speedcrunch dolphin ranger sakura base-devel elisa notepadqq xorg plasma plasma-wayland-session qutebrowser yakuake kdeconnect#for big lap
+>>>>>>> a7ed8b9a610babda5347a0a9eee8ef6396e806d8
         sudo systemctl enable sddm.service
         sudo systemctl enable NetworkManager.service
         sudo systemctl daemon-reload
